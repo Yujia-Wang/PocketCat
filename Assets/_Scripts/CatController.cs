@@ -64,12 +64,11 @@ public class CatController : MonoBehaviour {
             Debug.Log("This is Idle animation");
         } else if (isClicked == true)
         {
+            anim.WrapMode = WrapMode.Once;  
             anim.Play("Jump");
             Debug.Log("This is Jumping animation");
             
-            if (anim["Jump"].normalizedTime > 1.0f) {
-              isClicked = false;
-            }
+            isClicked = false;
         }
       
     }
