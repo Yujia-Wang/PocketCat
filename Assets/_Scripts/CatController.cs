@@ -50,33 +50,40 @@ public class CatController : MonoBehaviour {
 
 
         //Detect KeyboardInput
-      
-        if (Input.GetKey("1")) {
-            isClicked = true;
-        }
-        
-        if (isContact == false && (x != 0 || y != 0))
+        for (int i = 0; i < Input.touchCount; ++i)
         {
-            //Play walking animation
-            anim.Play("Walk");
-            Debug.Log("This is walk animation");
-        } else if (x == 0 && y == 0 && isClicked == false && isContact == false)
-        {
-            //Play static animation
-            anim.Play("Idle");
-            Debug.Log("This is Idle animation");
-        } else if (isClicked == true)
-        {
-            anim.Play("Jump");
-            Debug.Log("This is Jumping animation");
-            Debug.Log(anim["Jump"].normalizedTime);
-
-            if (anim.IsPlaying("Jump")  && anim["Jump"].normalizedTime > 0.99f)
+            if (Input.GetTouch(i).phase == TouchPhase.Began)
             {
-                isClicked = false;
-                Debug.Log("fuck");
+                isClicked = true;
+            }
+
+            if (isContact == false && (x != 0 || y != 0))
+            {
+                //Play walking animation
+                anim.Play("Walk");
+                Debug.Log("This is walk animation");
+            }
+            else if (x == 0 && y == 0 && isClicked == false && isContact == false)
+            {
+                //Play static animation
+                anim.Play("Idle");
+                Debug.Log("This is Idle animation");
+            }
+            else if (isClicked == true)
+            {
+                anim.Play("Jump");
+                Debug.Log("This is Jumping animation");
+                Debug.Log(anim["Jump"].normalizedTime);
+
+                if (anim.IsPlaying("Jump") && anim["Jump"].normalizedTime > 0.99f)
+                {
+                    isClicked = false;
+                    Debug.Log("fuck");
+                }
             }
         }
+
+        
       
     }
 
