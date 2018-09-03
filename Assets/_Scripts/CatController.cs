@@ -62,10 +62,14 @@ public class CatController : MonoBehaviour {
             //Play static animation
             anim.Play("Idle");
             Debug.Log("This is Idle animation");
-        } else if (Input.GetKey("1"))
+        } else if (isClicked == true)
         {
             anim.Play("Jump");
             Debug.Log("This is Jumping animation");
+            
+            if (anim["Jump"].normalizedTime > 1.0f) {
+              isClicked = false;
+            }
         }
       
     }
