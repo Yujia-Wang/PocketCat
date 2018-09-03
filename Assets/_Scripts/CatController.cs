@@ -7,7 +7,8 @@ using UnityEngine.UI;
 public class CatController : MonoBehaviour {
 
     private Rigidbody rb;
-    private Animation anim;
+//    private Animation anim;
+    private Animator anim;
 
     public Button Text;
     public AudioClip sound;
@@ -20,7 +21,7 @@ public class CatController : MonoBehaviour {
         //Acquire Rigidbody
         rb = GetComponent<Rigidbody>();
         //Acquire Animation
-        anim = GetComponent<Animation>();
+        anim = GetComponent<Animator>();
 
 
         //Acquire ButtonInfo
@@ -51,6 +52,9 @@ public class CatController : MonoBehaviour {
         if (Input.GetKeyUp("1")) {
             isClicked = true;
         }
+      
+        AnimatorStateInfo animatorInfo;
+        animatorInfo = anim.GetCurrentAnimatorStateInfo (0);
         
         if (x != 0 || y != 0)
         {
@@ -65,13 +69,12 @@ public class CatController : MonoBehaviour {
             if (isClicked) {
                 anim.Play("Jump");
                 Debug.Log("This is Jumping animation");
-              
-                if (anim.IsPlaying("Jump") && anim["Jump"].normalizedTime >= 1.0f) {
-                    isClicked = false;
-                }
             }
           
-            
+            if ((animatorInfo.normalizedTime > 1.0f) && (animatorInfo.IsName("Jump"))) {
+                anim.SetInteger("Jump", 0);
+                isClicked = false;
+            }
         }
       
     }
