@@ -65,13 +65,15 @@ public class CatController : MonoBehaviour {
             if (isClicked) {
                 anim.Play("Jump");
                 Debug.Log("This is Jumping animation");
+              
+                if (anim.IsPlaying("Jump") && anim["Jump"].normalizedTime >= 1) {
+                    isClicked = false;
+                } else {
+                    isClicked = true;
+                }
             }
           
-            if (anim.IsPlaying("Jump") && anim["Jump"].normalizedTime >= 1) {
-              isClicked = false;
-            } else {
-              isClicked = true;
-            }
+            
         }
       
     }
