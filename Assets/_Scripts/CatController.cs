@@ -12,6 +12,7 @@ public class CatController : MonoBehaviour {
     public Button Text;
     public AudioClip sound;
     public Canvas yourcanvas;
+    public bool isClicked = false;
 
     // Use this for initialization
     void Start()
@@ -47,23 +48,29 @@ public class CatController : MonoBehaviour {
 
         //Detect KeyboardInput
       
-        
+        if (Input.GetKeyUp("1")) {
+            isClicked = true;
+        }
         
         if (x != 0 || y != 0)
         {
             //Play walking animation
             anim.Play("Walk");
             Debug.Log("This is walk animation");
-        } 
-        else {
+        } else {
             //Play static animation
             anim.Play("Idle");
             Debug.Log("This is Idle animation");
           
-            if (Input.GetKeyUp("1"))
-            {
+            if (isClicked) {
                 anim.Play("Jump");
                 Debug.Log("This is Jumping animation");
+            }
+          
+            if (anim.IsPlaying("Jump") && anim["Jump"].normalizedTime >= 1) {
+              isClicked = false;
+            } else {
+              isClicked = true;
             }
         }
       
