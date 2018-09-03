@@ -49,8 +49,7 @@ public class CatController : MonoBehaviour {
         //Detect KeyboardInput
       
         if (Input.GetKey("1")) {
-            anim.Play("Jump");
-            Debug.Log("This is Jumping animation");
+            isClicked = true;
         }
         
         if (x != 0 || y != 0)
@@ -58,10 +57,15 @@ public class CatController : MonoBehaviour {
             //Play walking animation
             anim.Play("Walk");
             Debug.Log("This is walk animation");
-        } else {
+        } else if (x == 0 && y == 0 && isClicked == false)
+        {
             //Play static animation
             anim.Play("Idle");
             Debug.Log("This is Idle animation");
+        } else if (Input.GetKey("1"))
+        {
+            anim.Play("Jump");
+            Debug.Log("This is Jumping animation");
         }
       
     }
