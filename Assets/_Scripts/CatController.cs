@@ -13,6 +13,9 @@ public class CatController : MonoBehaviour {
     public AudioClip sound;
     public Canvas yourcanvas;
     public bool isClicked = false;
+    public bool isContact = false;
+    public float x;
+    public float y;
 
     // Use this for initialization
     void Start()
@@ -33,8 +36,8 @@ public class CatController : MonoBehaviour {
 
 
         //Acquire control info
-        float x = CrossPlatformInputManager.GetAxis("Horizontal");
-        float y = CrossPlatformInputManager.GetAxis("Vertical");
+        x = CrossPlatformInputManager.GetAxis("Horizontal");
+        y = CrossPlatformInputManager.GetAxis("Vertical");
         //Set speed
         Vector3 movement = new Vector3(x, 0, y);
         rb.velocity = movement * 8f;
@@ -52,24 +55,55 @@ public class CatController : MonoBehaviour {
             isClicked = true;
         }
         
-        if (x != 0 || y != 0)
+        if (isContact == false && (x != 0 || y != 0))
         {
             //Play walking animation
             anim.Play("Walk");
             Debug.Log("This is walk animation");
-        } else if (x == 0 && y == 0 && isClicked == false)
+        } else if (x == 0 && y == 0 && isClicked == false && isContact == false)
         {
             //Play static animation
             anim.Play("Idle");
             Debug.Log("This is Idle animation");
         } else if (isClicked == true)
         {
-            anim.WrapMode = WrapMode.Once;  
             anim.Play("Jump");
             Debug.Log("This is Jumping animation");
-            
-            isClicked = false;
+            Debug.Log(anim["Jump"].normalizedTime);
+
+            if (anim.IsPlaying("Jump")  && anim["Jump"].normalizedTime > 0.99f)
+            {
+                isClicked = false;
+                Debug.Log("fuck");
+            }
         }
       
     }
+
+    //开始接触
+    void OnTriggerEnter(Collider collider)
+    {
+        Debug.Log("开始接触");
+    }
+
+    //接触结束
+    void OnTriggerExit(Collider collider)
+    {
+        isContact = false;
+        Debug.Log("接触结束");
+    }
+
+    // 接触持续中
+    void OnTriggerStay(Collider collider)
+    {
+        if (x == 0 && y == 0)
+        {
+            isContact = true;
+            anim.Play("Eat");
+            Debug.Log("This is Eating animation");
+            Debug.Log("接触持续中");
+        }
+        
+    }
+
 }
